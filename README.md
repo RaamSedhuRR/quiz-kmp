@@ -41,5 +41,21 @@ A **multiplatform quiz app** built with **Kotlin Compose Multiplatform**, featur
 - Shows total **correct answers**, **streak**, and **max streak**.
 - `onRestart` resets quiz state and questions.
 - Triggered when `QuizUiState.isCompleted = true`.
+---
+
+## 🧠 Key Highlights
+
+- Offline-first architecture with **SQLDelight caching**  
+- Smooth **Compose animations & gestures**  
+- Reactive **StateFlow-based UI updates**  
+- Modular, testable, and scalable **KMP architecture**
+
+---
+
+## 🎥 Demo
+
+📱 **Watch the Demo (Android & iOS):**  
+[▶️ Google Drive Demo Link]([https://drive.google.com/drive/folders/nasjndajs?usp=sharing](https://drive.google.com/drive/folders/10FyBqBShRTAUO-RBRjatadp_YyASEDUh?usp=sharing
+))
 
 ---
