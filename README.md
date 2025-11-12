@@ -1,6 +1,14 @@
-# QuizKmpApp
+# 🧠 QuizKmpApp
 
-A **multiplatform quiz app** built with **Kotlin Compose Multiplatform**, featuring offline caching, swipe gestures, streak tracking, and clean MVVM architecture.
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue?logo=kotlin)](https://kotlinlang.org)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose-Multiplatform-4285F4?logo=jetpackcompose&logoColor=white)](https://www.jetbrains.com/lp/compose-multiplatform/)
+[![KMM](https://img.shields.io/badge/KMM-Enabled-FF6F00?logo=android&logoColor=white)](https://kotlinlang.org/lp/mobile/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey)](#)
+
+---
+
+A **multiplatform quiz app** built with **Kotlin Compose Multiplatform**, featuring offline caching, swipe gestures, streak tracking, and a clean MVVM architecture.
 
 ---
 
@@ -17,38 +25,34 @@ A **multiplatform quiz app** built with **Kotlin Compose Multiplatform**, featur
 
 ## 🚀 Features
 
-### 1. QuizKmpApp Initialization
+### ⚙️ App Initialization
 - Loads quiz data from **cache** or **remote server**.
 - Initializes `QuizViewModel` on app start.
-- Navigation based on state:
+- Navigation based on app state:
   - **SplashScreen** → **QuizScreen** → **ResultScreen**
 
-### 2. Screens
-
-#### **SplashScreen**
-- Circular progress bar with "Loading quiz..." text.
-- Shows until data is loaded (`QuizUiState.isLoading = true`).
-
-#### **QuizScreen**
-- Displays **question** and **multiple choice options**.
-- **Progress bar** and **streak indicator**.
-- **Swipe gestures** (left/right) for navigation.
-- **Skip button**.
-- **Auto-navigation** to the next question after selection.
-- Observes `QuizUiState` for reactive UI updates.
-
-#### **ResultScreen**
-- Shows total **correct answers**, **streak**, and **max streak**.
-- `onRestart` resets quiz state and questions.
-- Triggered when `QuizUiState.isCompleted = true`.
 ---
 
-## 🧠 Key Highlights
+### 🌀 SplashScreen
+- Circular progress bar with **“Loading quiz...”** text.
+- Visible while data is being loaded (`QuizUiState.isLoading = true`).
 
-- Offline-first architecture with **SQLDelight caching**  
-- Smooth **Compose animations & gestures**  
-- Reactive **StateFlow-based UI updates**  
-- Modular, testable, and scalable **KMP architecture**
+---
+
+### 🧩 QuizScreen
+- Displays **question** and **multiple choice options**.
+- **Progress bar** and **streak indicator** for tracking.
+- **Swipe gestures** (left/right) for navigation.
+- **Skip button** to move to the next question.
+- **Auto-navigation** after selecting an answer.
+- Observes `QuizUiState` for reactive UI updates.
+
+---
+
+### 🏁 ResultScreen
+- Displays total **correct answers**, **current streak**, and **max streak**.
+- `onRestart` resets quiz state and reloads questions.
+- Triggered when `QuizUiState.isCompleted = true`.
 
 ---
 
