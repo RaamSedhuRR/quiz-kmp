@@ -59,7 +59,7 @@ A **multiplatform quiz app** built with **Kotlin Compose Multiplatform**, featur
 ## 🎥 Demo
 
 📱 **Watch the Demo (Android & iOS):**  
-[▶️ Google Drive Demo Link]([https://drive.google.com/drive/folders/10FyBqBShRTAUO-RBRjatadp_YyASEDUh?usp=sharing
+[▶️ Google Drive Demo Link][([https://drive.google.com/drive/folders/10FyBqBShRTAUO-RBRjatadp_YyASEDUh?usp=sharing
 ])
 
 ---
