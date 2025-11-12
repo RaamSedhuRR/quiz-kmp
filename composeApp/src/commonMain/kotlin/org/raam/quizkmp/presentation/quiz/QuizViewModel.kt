@@ -48,10 +48,6 @@ class QuizViewModel(
             kotlinx.coroutines.delay(2000)
             nextQuestion()
         }
-        viewModelScope.launch {
-            kotlinx.coroutines.delay(2000)
-            prevQuestion()
-        }
     }
 
     fun moveToNextQuestion() {

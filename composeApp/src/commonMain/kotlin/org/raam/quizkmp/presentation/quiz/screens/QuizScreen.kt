@@ -126,7 +126,6 @@ fun QuizScreen(
                                 onOptionSelected(index)
                                 coroutineScope.launch {
                                     delay(1500)
-                                    onNext()
                                 }
                             },
                         shape = RoundedCornerShape(12.dp),
