@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,27 +21,28 @@ import org.raam.quizkmp.presentation.quiz.screens.components.FancyQuizProgressBa
 import org.raam.quizkmp.presentation.theme.QuizColors
 import org.raam.quizkmp.presentation.theme.QuizSpacing
 import org.raam.quizkmp.presentation.theme.QuizTypography
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(
     state: QuizUiState,
     onOptionSelected: (Int) -> Unit,
-    onSkip: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    onPrev: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val question = state.questions.getOrNull(state.currentQuestionIndex) ?: return
 
+    // Threshold for detecting a valid right swipe
+    var accumulatedDrag by remember { mutableStateOf(0f) }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Quiz",
-                        style = QuizTypography.title(Color.White)
-                    )
-                },
+                title = { Text("Quiz", style = QuizTypography.title(Color.White)) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = QuizColors.DarkPurple,
                     titleContentColor = Color.White
@@ -50,91 +50,111 @@ fun QuizScreen(
             )
         }
     ) { innerPadding ->
-        Column(
+        // Wrap all content in a pointerInput to detect horizontal drags
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFF8F8F8))
                 .padding(innerPadding)
-                .padding(horizontal = QuizSpacing.Medium, vertical = QuizSpacing.Small)
-        ) {
-            FancyQuizProgressBar(state.currentQuestionIndex, state.questions.size)
-            Spacer(modifier = Modifier.height(QuizSpacing.Medium))
-
-            // --- Streak display ---
-            AnimatedVisibility(visible = state.streak >= 1) {
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFFFF3E0))
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("🔥", fontSize = 20.sp)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        "Streak: ${state.streak}",
-                        fontWeight = FontWeight.Bold,
-                        color = QuizColors.Warning
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(QuizSpacing.Large))
-
-            // --- Question text ---
-            Text(
-                text = question.question,
-                style = QuizTypography.subtitle(Color.Black)
-            )
-
-            Spacer(modifier = Modifier.height(QuizSpacing.Medium))
-
-            // --- Options ---
-            question.options.forEachIndexed { index, option ->
-                val bgColor = when {
-                    state.selectedOption != null && index == question.correctOptionIndex -> QuizColors.Success
-                    state.selectedOption == index && state.selectedOption != question.correctOptionIndex -> QuizColors.Error
-                    else -> QuizColors.SurfaceVariant
-                }
-
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp)
-                        .clickable(enabled = state.selectedOption == null) {
-                            onOptionSelected(index)
-                            coroutineScope.launch {
-                                delay(1500)
-                                onNext()
-                            }
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures(
+                        onHorizontalDrag = { _, dragAmount ->
+                            accumulatedDrag += dragAmount
                         },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.elevatedCardColors(containerColor = bgColor)
-                ) {
-                    Text(
-                        text = option,
-                        modifier = Modifier.padding(16.dp),
-                        style = QuizTypography.body(Color.Black)
+                        onDragEnd = {
+                            if (accumulatedDrag < 0) {
+                                onNext() // Swiped right → go to next question
+                            } else {
+                                onPrev()
+                            }
+                            accumulatedDrag = 0f
+                        }
                     )
                 }
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            OutlinedButton(
-                onClick = onSkip,
+        ) {
+            Column(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth(0.6f),
-                shape = RoundedCornerShape(24.dp),
-                border = ButtonDefaults.outlinedButtonBorder.copy(width = 1.5.dp)
+                    .fillMaxSize()
+                    .padding(horizontal = QuizSpacing.Medium, vertical = QuizSpacing.Small)
             ) {
-                Text("Skip", color = QuizColors.DarkPurple)
-            }
+                FancyQuizProgressBar(state.currentQuestionIndex, state.questions.size)
+                Spacer(modifier = Modifier.height(QuizSpacing.Medium))
 
-            Spacer(modifier = Modifier.height(QuizSpacing.Small))
+                // --- Streak display ---
+                AnimatedVisibility(visible = state.streak >= 1) {
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Color(0xFFFFF3E0))
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("🔥", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            "Streak: ${state.streak}",
+                            fontWeight = FontWeight.Bold,
+                            color = QuizColors.Warning
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(QuizSpacing.Large))
+
+                // --- Question text ---
+                Text(
+                    text = question.question,
+                    style = QuizTypography.subtitle(Color.Black)
+                )
+
+                Spacer(modifier = Modifier.height(QuizSpacing.Medium))
+
+                // --- Options ---
+                question.options.forEachIndexed { index, option ->
+                    val bgColor = when {
+                        state.selectedOption != null && index == question.correctOptionIndex -> QuizColors.Success
+                        state.selectedOption == index && state.selectedOption != question.correctOptionIndex -> QuizColors.Error
+                        else -> QuizColors.SurfaceVariant
+                    }
+
+                    ElevatedCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp)
+                            .clickable(enabled = state.selectedOption == null) {
+                                onOptionSelected(index)
+                                coroutineScope.launch {
+                                    delay(1500)
+                                    onNext()
+                                }
+                            },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.elevatedCardColors(containerColor = bgColor)
+                    ) {
+                        Text(
+                            text = option,
+                            modifier = Modifier.padding(16.dp),
+                            style = QuizTypography.body(Color.Black)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                OutlinedButton(
+                    onClick = onNext,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth(0.6f),
+                    shape = RoundedCornerShape(24.dp),
+                    border = ButtonDefaults.outlinedButtonBorder.copy(width = 1.5.dp)
+                ) {
+                    Text("Skip", color = QuizColors.DarkPurple)
+                }
+
+                Spacer(modifier = Modifier.height(QuizSpacing.Small))
+            }
         }
     }
 }
-

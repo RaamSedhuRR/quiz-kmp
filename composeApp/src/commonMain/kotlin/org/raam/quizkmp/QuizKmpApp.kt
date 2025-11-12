@@ -28,8 +28,8 @@ fun QuizKmpApp() {
             else -> QuizScreen(
                 state = state.value,
                 onOptionSelected = { viewModel.onOptionSelected(it) },
-                onSkip = { viewModel.skipQuestion() },
-                onNext= { null }
+                onNext= { viewModel.moveToNextQuestion() },
+                onPrev = { viewModel.moveToPrevQuestion() }
             )
         }
     }

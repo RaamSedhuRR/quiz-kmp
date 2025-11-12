@@ -48,10 +48,18 @@ class QuizViewModel(
             kotlinx.coroutines.delay(2000)
             nextQuestion()
         }
+        viewModelScope.launch {
+            kotlinx.coroutines.delay(2000)
+            prevQuestion()
+        }
     }
 
-    fun skipQuestion() {
+    fun moveToNextQuestion() {
         nextQuestion()
+    }
+
+    fun moveToPrevQuestion() {
+        prevQuestion()
     }
 
     private fun nextQuestion() {
@@ -63,6 +71,15 @@ class QuizViewModel(
             )
         } else {
             _uiState.value = state.copy(isCompleted = true)
+        }
+    }
+
+    private fun prevQuestion(){
+        val state = _uiState.value
+        if (state.currentQuestionIndex > 0) {
+            _uiState.value = state.copy(
+                currentQuestionIndex = state.currentQuestionIndex - 1
+            )
         }
     }
 
