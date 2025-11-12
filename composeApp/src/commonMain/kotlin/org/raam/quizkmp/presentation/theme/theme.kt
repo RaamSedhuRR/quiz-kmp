@@ -36,6 +36,7 @@ object QuizTypography {
         color = color
     )
 
+
     @Composable
     fun subtitle(color: Color): TextStyle = MaterialTheme.typography.titleLarge.copy(
         fontWeight = FontWeight.Bold,

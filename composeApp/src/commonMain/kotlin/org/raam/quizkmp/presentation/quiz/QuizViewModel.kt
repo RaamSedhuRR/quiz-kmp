@@ -87,3 +87,4 @@ class QuizViewModel(
         _uiState.value = QuizUiState(questions = _uiState.value.questions, isLoading = false)
     }
 }
+

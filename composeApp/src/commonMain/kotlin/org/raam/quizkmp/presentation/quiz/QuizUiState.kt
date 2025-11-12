@@ -12,3 +12,4 @@ data class QuizUiState(
     val isLoading: Boolean = true,
     val isCompleted: Boolean = false
 )
+

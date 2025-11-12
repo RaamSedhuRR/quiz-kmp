@@ -10,3 +10,4 @@ class GetQuestionsUseCase(
         return repository.getQuiz()
     }
 }
+
