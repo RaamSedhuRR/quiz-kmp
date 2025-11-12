@@ -36,11 +36,11 @@ fun ResultScreen(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier.fillMaxSize()
         ) {
+            Spacer(modifier = Modifier.height(QuizSpacing.Large))
             // Nav bar title
             Text(
                 text = "Quiz Results",
-                color = Color.White,
-                style = QuizTypography.subtitle(),
+                style = QuizTypography.subtitle(Color.White),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -49,7 +49,7 @@ fun ResultScreen(
 
             Text(
                 text = "🎉 Quiz Completed!",
-                style = QuizTypography.title(),
+                style = QuizTypography.title(Color.White),
                 textAlign = TextAlign.Center
             )
 
@@ -80,8 +80,7 @@ fun ResultScreen(
                     ) {
                         Text(
                             text = "$correct / $total",
-                            color = Color.White,
-                            style = QuizTypography.subtitle().copy(fontSize = 28.sp)
+                            style = QuizTypography.subtitle(QuizColors.Primary).copy(fontSize = 28.sp)
                         )
                     }
 
@@ -95,8 +94,7 @@ fun ResultScreen(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = "Longest Streak: $maxStreak",
-                            color = Color.White,
-                            style = QuizTypography.body()
+                            style = QuizTypography.body(QuizColors.DarkPurple)
                         )
                     }
                 }
@@ -115,7 +113,7 @@ fun ResultScreen(
                 Text(
                     text = "Restart Quiz",
                     color = QuizColors.DarkPurple,
-                    style = QuizTypography.body().copy(fontWeight = FontWeight.Bold)
+                    style = QuizTypography.body(Color.White).copy(fontWeight = FontWeight.Bold)
                 )
             }
         }

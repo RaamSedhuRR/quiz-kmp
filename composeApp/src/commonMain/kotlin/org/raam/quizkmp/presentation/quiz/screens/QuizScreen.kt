@@ -18,8 +18,10 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.raam.quizkmp.presentation.quiz.QuizUiState
+import org.raam.quizkmp.presentation.quiz.screens.components.FancyQuizProgressBar
 import org.raam.quizkmp.presentation.theme.QuizColors
 import org.raam.quizkmp.presentation.theme.QuizSpacing
+import org.raam.quizkmp.presentation.theme.QuizTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +40,7 @@ fun QuizScreen(
                 title = {
                     Text(
                         "Quiz",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                        style = QuizTypography.title(Color.White)
                     )
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -83,7 +85,7 @@ fun QuizScreen(
             // --- Question text ---
             Text(
                 text = question.question,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                style = QuizTypography.subtitle(Color.Black)
             )
 
             Spacer(modifier = Modifier.height(QuizSpacing.Medium))
@@ -93,7 +95,7 @@ fun QuizScreen(
                 val bgColor = when {
                     state.selectedOption != null && index == question.correctOptionIndex -> QuizColors.Success
                     state.selectedOption == index && state.selectedOption != question.correctOptionIndex -> QuizColors.Error
-                    else -> MaterialTheme.colorScheme.surfaceVariant
+                    else -> QuizColors.SurfaceVariant
                 }
 
                 ElevatedCard(
@@ -113,7 +115,7 @@ fun QuizScreen(
                     Text(
                         text = option,
                         modifier = Modifier.padding(16.dp),
-                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium)
+                        style = QuizTypography.body(Color.Black)
                     )
                 }
             }
@@ -136,48 +138,3 @@ fun QuizScreen(
     }
 }
 
-@Composable
-fun FancyQuizProgressBar(current: Int, total: Int) {
-    val progress = (current + 1f) / total
-    val animatedProgress = androidx.compose.animation.core.animateFloatAsState(
-        targetValue = progress,
-        animationSpec = androidx.compose.animation.core.spring()
-    )
-
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Question ${current + 1} / $total",
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
-
-        Spacer(modifier = Modifier.height(QuizSpacing.Small))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(10.dp)
-                .clip(RoundedCornerShape(50))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(animatedProgress.value)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(50))
-                    .background(
-                        Brush.linearGradient(
-                            colors = listOf(
-                                QuizColors.Primary,
-                                QuizColors.Accent
-                            )
-                        )
-                    )
-            )
-        }
-    }
-}

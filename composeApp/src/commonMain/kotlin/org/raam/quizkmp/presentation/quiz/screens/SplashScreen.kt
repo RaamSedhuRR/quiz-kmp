@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import org.raam.quizkmp.presentation.theme.QuizColors
 import org.raam.quizkmp.presentation.theme.QuizSpacing
 import org.raam.quizkmp.presentation.theme.QuizTypography
@@ -22,7 +23,7 @@ fun SplashScreen() {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             CircularProgressIndicator(color = QuizColors.Accent)
             Spacer(modifier = Modifier.height(QuizSpacing.Medium))
-            Text("Loading Quiz...", style = QuizTypography.body())
+            Text("Loading Quiz...", style = QuizTypography.body(Color.White))
         }
     }
 }

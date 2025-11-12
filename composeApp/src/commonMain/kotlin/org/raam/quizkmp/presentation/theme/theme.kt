@@ -15,7 +15,7 @@ object QuizColors {
     val Success = Color(0xFF4CAF50)
     val Error = Color(0xFFF44336)
     val Warning = Color(0xFFFF9800)
-    val SurfaceVariant = Color.White.copy(alpha = 0.15f)
+    val SurfaceVariant = Color(0xFFE7E0EC)
 
     val BackgroundGradient = Brush.verticalGradient(
         colors = listOf(DarkPurple, Primary)
@@ -31,20 +31,20 @@ object QuizSpacing {
 
 object QuizTypography {
     @Composable
-    fun title(): TextStyle = MaterialTheme.typography.headlineMedium.copy(
+    fun title(color: Color): TextStyle = MaterialTheme.typography.headlineMedium.copy(
         fontWeight = FontWeight.ExtraBold,
-        color = Color.White
+        color = color
     )
 
     @Composable
-    fun subtitle(): TextStyle = MaterialTheme.typography.titleLarge.copy(
+    fun subtitle(color: Color): TextStyle = MaterialTheme.typography.titleLarge.copy(
         fontWeight = FontWeight.Bold,
-        color = Color.White
+        color = color
     )
 
     @Composable
-    fun body(): TextStyle = MaterialTheme.typography.bodyLarge.copy(
+    fun body(color: Color): TextStyle = MaterialTheme.typography.bodyLarge.copy(
         fontWeight = FontWeight.Medium,
-        color = Color.White
+        color = color
     )
 }
