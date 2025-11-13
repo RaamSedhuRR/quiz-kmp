@@ -21,7 +21,9 @@ fun QuizKmpApp() {
         when (val state = uiState.value) {
             is UiStateHandler.Loading -> SplashScreen()
 
-            is UiStateHandler.Error -> ErrorScreen(state)
+            is UiStateHandler.Error -> ErrorScreen(state) {
+                viewModel.retry()
+            }
 
             is UiStateHandler.Success -> {
                 val quizState: QuizUiState = state.data

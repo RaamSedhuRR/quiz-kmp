@@ -112,4 +112,8 @@ class QuizViewModel(
         )
         _uiState.value = UiStateHandler.Success(resetState)
     }
+
+    fun retry() {
+        loadQuestions()
+    }
 }
