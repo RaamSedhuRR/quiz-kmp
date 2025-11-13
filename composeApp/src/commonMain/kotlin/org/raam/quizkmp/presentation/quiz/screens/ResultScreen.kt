@@ -2,8 +2,10 @@ package org.raam.quizkmp.presentation.quiz.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,10 +33,12 @@ fun ResultScreen(
             .background(brush = QuizColors.BackgroundGradient)
             .padding(horizontal = QuizSpacing.Medium, vertical = QuizSpacing.Large)
     ) {
+        val scrollState = rememberScrollState()
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
         ) {
             Spacer(modifier = Modifier.height(QuizSpacing.Large))
             // Nav bar title

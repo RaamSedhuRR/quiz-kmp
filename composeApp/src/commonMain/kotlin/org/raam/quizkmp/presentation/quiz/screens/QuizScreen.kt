@@ -22,6 +22,8 @@ import org.raam.quizkmp.presentation.theme.QuizColors
 import org.raam.quizkmp.presentation.theme.QuizSpacing
 import org.raam.quizkmp.presentation.theme.QuizTypography
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.input.pointer.pointerInput
 
 
@@ -72,9 +74,10 @@ fun QuizScreen(
                     )
                 }
         ) {
+            val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize().verticalScroll(scrollState)
                     .padding(horizontal = QuizSpacing.Medium, vertical = QuizSpacing.Small)
             ) {
                 FancyQuizProgressBar(state.currentQuestionIndex, state.questions.size)
