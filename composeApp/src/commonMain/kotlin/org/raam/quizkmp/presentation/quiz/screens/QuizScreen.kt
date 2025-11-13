@@ -41,6 +41,8 @@ fun QuizScreen(
     // Threshold for detecting a valid right swipe
     var accumulatedDrag by remember { mutableStateOf(0f) }
 
+    val selectedOption = state.selectedOptions[state.currentQuestionIndex]
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -116,16 +118,17 @@ fun QuizScreen(
                 // --- Options ---
                 question.options.forEachIndexed { index, option ->
                     val bgColor = when {
-                        state.selectedOption != null && index == question.correctOptionIndex -> QuizColors.Success
-                        state.selectedOption == index && state.selectedOption != question.correctOptionIndex -> QuizColors.Error
+                        selectedOption != null && index == question.correctOptionIndex -> QuizColors.Success
+                        selectedOption == index && selectedOption != question.correctOptionIndex -> QuizColors.Error
                         else -> QuizColors.SurfaceVariant
                     }
+
 
                     ElevatedCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 6.dp)
-                            .clickable(enabled = state.selectedOption == null) {
+                            .clickable(enabled = selectedOption == null) {
                                 onOptionSelected(index)
                                 coroutineScope.launch {
                                     delay(1500)

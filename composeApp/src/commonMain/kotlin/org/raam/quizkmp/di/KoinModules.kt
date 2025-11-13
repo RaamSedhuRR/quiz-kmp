@@ -25,7 +25,7 @@ val appModule = module {
     factory { GetQuestionsUseCase(get()) }
 
     // ViewModels
-    factory { QuizViewModel(get()) }
+    single { QuizViewModel(get()) }
 }
 
 
